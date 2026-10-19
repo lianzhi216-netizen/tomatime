@@ -7,86 +7,89 @@ device time hour=13 date=10/19
 today column x=150
 tap 📝 at 174,2105
 shot 03-choose-how
-tap 幫我排 at 292,1292
-shot 04-plan-form
-tap 找時間 at 540,2208
-shot 05-suggest
-tap 確認 at 884,328
-shot 06-after-auto-plan
+NOT FOUND: 幫我排
+shot 04-missing
+shot 05-plan-form
+NOT FOUND: 找時間
+shot 06-missing
+shot 07-suggest
+NOT FOUND: 確認
+shot 08-missing
+shot 09-after-auto-plan
 tap 📝 at 174,2105
 tap 自己排 at 292,1064
-shot 07-select-mode
+shot 10-select-mode
 long drag x=150 740->825
-shot 08-confirm-plan
+shot 11-confirm-plan
 tap 儲存 at 821,1563
-shot 09-after-self-plan
+shot 12-after-self-plan
 tap planned block at 150,627
-shot 10-detail-past
+shot 13-detail-past
 tap 🟡 做一半 at 540,2015
-shot 11-remaining
+shot 14-remaining
 tap 確定 at 821,1508
-shot 12-after-partial
+shot 15-after-partial
 tap 🎮 at 174,2231
-shot 13-log-mode
+shot 16-log-mode
 long drag x=150 910->994
-shot 14-after-log
+shot 17-after-log
 tap logged block at 150,817
-shot 15-detail-logged
+shot 18-detail-logged
 back
 tap 10/19 at 150,348
-shot 16-day-view
+shot 19-day-view
 back
 swipe to next week
-shot 17-next-week
+shot 20-next-week
 tap 回到本週 at 493,183
 tap ☰ at 1021,186
-shot 18-menu
+shot 21-menu
 tap 未完成清單 at 811,322
-shot 19-unfinished
+shot 22-unfinished
 back
 tap ☰ at 1021,186
 tap 統計 at 710,448
-shot 20-stats
+shot 23-stats
 back
 tap 10月 at 184,186
-shot 21-overview
+shot 24-overview
 back
 tap 🍅 at 914,183
-shot 22-pomo-start
+shot 25-pomo-start
 NOT FOUND: 開始專注
-shot 23-missing
+shot 26-missing
 tap 📚讀書 at 323,1006
-shot 24-pomo-running
+shot 27-pomo-running
 tap 💭 想到別的事 at 295,1337
-shot 25-pomo-thought
+shot 28-pomo-thought
 back
 tap 結束任務 at 540,1510
-shot 26-pomo-ended
+shot 29-pomo-ended
 tap ☰ at 1021,186
 tap 設定 at 710,700
-shot 27-settings
-tap guard switch at 1000,1963
-shot 28-guard-settings
-tap guard test at 354,1970
+shot 30-settings
+tap guard switch at 1000,2042
+shot 31-guard-settings
+tap guard test at 354,1972
 home
-shot 29-guard-medium
+shot 32-guard-medium
 tap 我知道了 (medium) at 540,1476
-shot 30-guard-medium-closed
-shot 31-guard-medium-again
+shot 33-guard-medium-closed
+shot 34-guard-medium-again
 waiting 65 s without touching to check the 60 s auto-close
-shot 32-guard-after-autoclose
+shot 35-guard-after-autoclose
 tap 我知道了 before going back to the app at 540,1476
-shot 33-guard-inside-app-no-reminder
-tap strong at 771,1178
-shot 34-guard-strong
+shot 36-guard-inside-app-no-reminder
+tap strong at 771,1180
+shot 37-guard-strong
 tap 我知道了 too early (should do nothing) at 540,1476
-shot 35-guard-strong-early
-shot 36-guard-strong-ready
+shot 38-guard-strong-early
+shot 39-guard-strong-ready
 tap 我知道了 (strong) at 540,1476
-shot 37-guard-strong-closed
-shot 38-guard-shade
-shot 39-back-in-app
-tap stop guard at 258,1970
-shot 40-guard-stopped
+shot 40-guard-strong-closed
+shot 41-guard-shade
+shot 42-back-in-app
+tap stop guard at 258,1972
+shot 43-guard-stopped
 app process alive: True
 no crash

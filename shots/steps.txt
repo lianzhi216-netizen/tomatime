@@ -1,0 +1,54 @@
+Performing Streamed Install
+Success
+shot 01-onboarding
+tap 3. 開始使用 at 540,1855
+shot 02-week
+device time hour=11 date=10/19
+today column x=150
+tap 📝 at 174,2137
+shot 03-choose-how
+tap 幫我排 at 292,1292
+shot 04-plan-form
+tap 找時間 at 540,2208
+shot 05-suggest
+tap 確認 at 884,359
+shot 06-after-auto-plan
+tap 📝 at 174,2137
+tap 自己排 at 292,1064
+shot 07-select-mode
+long drag x=150 571->659
+shot 08-confirm-plan
+tap 儲存 at 821,1563
+shot 09-after-self-plan
+tap planned block at 150,440
+shot 10-detail-past
+tap 🟡 做一半 at 540,2015
+shot 11-remaining
+tap 確定 at 821,1508
+shot 12-after-partial
+tap 🎮 at 174,2263
+shot 13-log-mode
+long drag x=150 748->836
+shot 14-after-log
+tap logged block at 150,637
+shot 15-detail-logged
+back
+tap 10/19 at 150,347
+shot 16-day-view
+back
+swipe to next week
+shot 17-next-week
+tap 回到本週 at 483,183
+tap ☰ at 1021,186
+shot 18-menu
+tap 未完成清單 at 899,322
+shot 19-unfinished
+back
+tap ☰ at 1021,186
+tap 設定 at 798,448
+shot 20-settings
+shot 21-settings-bottom
+back
+shot 22-final
+app process alive: True
+no crash

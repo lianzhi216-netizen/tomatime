@@ -65,3 +65,53 @@ jobs:
           gh release create "v$VN-build${{ github.run_number }}" Tomatime-*.apk \
             --title "Tomatime $VN (build ${{ github.run_number }})" \
             --notes "自動建置：${{ github.event.head_commit.message }}"
+
+  # Installs the APK on an emulator, taps through the main flows and saves screenshots to the ci-logs branch.
+  uitest:
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: tomatime-apk
+          path: apk
+
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Run the app on an emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          target: google_apis
+          arch: x86_64
+          profile: pixel_6
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -timezone Asia/Taipei
+          disable-animations: true
+          script: python3 ci/ui_test.py "$(ls apk/*.apk | head -1)" shots
+
+      - name: Save screenshots
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          [ -d shots ] || exit 0
+          put() {
+            local file="$1" path="$2"
+            local old
+            old=$(gh api "repos/$GITHUB_REPOSITORY/contents/$path?ref=ci-logs" --jq .sha 2>/dev/null || true)
+            base64 -w0 "$file" > /tmp/c.b64
+            if [ -n "$old" ]; then
+              jq -n --rawfile c /tmp/c.b64 --arg sha "$old" --arg m "ui $path" '{message:$m,branch:"ci-logs",content:$c,sha:$sha}' > /tmp/body.json
+            else
+              jq -n --rawfile c /tmp/c.b64 --arg m "ui $path" '{message:$m,branch:"ci-logs",content:$c}' > /tmp/body.json
+            fi
+            gh api -X PUT "repos/$GITHUB_REPOSITORY/contents/$path" --input /tmp/body.json >/dev/null || echo "upload failed: $path"
+          }
+          for f in shots/*; do put "$f" "shots/$(basename "$f")"; done

@@ -3,7 +3,7 @@ Success
 shot 01-onboarding
 tap 3. 開始使用 at 540,1855
 shot 02-week
-device time hour=11 date=10/19
+device time hour=12 date=10/19
 today column x=150
 tap 📝 at 174,2105
 shot 03-choose-how
@@ -16,11 +16,11 @@ shot 06-after-auto-plan
 tap 📝 at 174,2105
 tap 自己排 at 292,1064
 shot 07-select-mode
-long drag x=150 571->656
+long drag x=150 656->740
 shot 08-confirm-plan
 tap 儲存 at 821,1563
 shot 09-after-self-plan
-tap planned block at 150,438
+tap planned block at 150,533
 shot 10-detail-past
 tap 🟡 做一半 at 540,2015
 shot 11-remaining
@@ -28,27 +28,46 @@ tap 確定 at 821,1508
 shot 12-after-partial
 tap 🎮 at 174,2231
 shot 13-log-mode
-long drag x=150 740->825
+long drag x=150 825->910
 shot 14-after-log
-tap logged block at 150,627
+tap logged block at 150,722
 shot 15-detail-logged
 back
-tap 10/19 at 150,346
+tap 10/19 at 150,348
 shot 16-day-view
 back
 swipe to next week
 shot 17-next-week
-tap 回到本週 at 483,183
+tap 回到本週 at 493,183
 tap ☰ at 1021,186
 shot 18-menu
-tap 未完成清單 at 899,322
+tap 未完成清單 at 811,322
 shot 19-unfinished
 back
 tap ☰ at 1021,186
-tap 設定 at 798,448
-shot 20-settings
-shot 21-settings-bottom
+tap 統計 at 710,448
+shot 20-stats
 back
-shot 22-final
+tap 10月 at 184,186
+shot 21-overview
+back
+tap 🍅 at 914,183
+shot 22-pomo-start
+NOT FOUND: 開始專注
+shot 23-missing
+tap 📚讀書 at 323,1006
+shot 24-pomo-running
+tap 💭 想到別的事 at 295,1337
+shot 25-pomo-thought
+back
+tap 結束任務 at 540,1510
+shot 26-pomo-ended
+back
+NOT FOUND: ☰
+shot 27-missing
+NOT FOUND: 設定
+shot 28-missing
+shot 29-settings
+shot 30-back-in-app
 app process alive: True
 no crash

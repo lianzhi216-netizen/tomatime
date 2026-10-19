@@ -8,6 +8,12 @@ import com.tomatime.app.system.Ticks
 import com.tomatime.app.system.Widgets
 
 class TomatimeApp : Application() {
+    companion object {
+        /** True while a Tomatime screen is visible; the sleep guard does not nag inside the app. */
+        @Volatile
+        var inForeground = false
+    }
+
     lateinit var store: Store
         private set
 

@@ -25,6 +25,16 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        TomatimeApp.inForeground = true
+    }
+
+    override fun onStop() {
+        TomatimeApp.inForeground = false
+        super.onStop()
+    }
+
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         setIntent(intent)

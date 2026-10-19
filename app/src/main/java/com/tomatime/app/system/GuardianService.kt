@@ -241,7 +241,7 @@ class GuardianService : Service() {
         val now = System.currentTimeMillis()
         val fg = foregroundApp()
         val store = Ticks.store(this)
-        val skip = inCall() || isClockApp(fg) || fg == packageName ||
+        val skip = inCall() || isClockApp(fg) || fg == packageName || com.tomatime.app.TomatimeApp.inForeground ||
             (now < emergencyUntil && (emergencyAll || (fg != null && fg in store.data.value.settings.emergencyApps)))
         if (skip) {
             handler.postDelayed(fire, 15_000L)

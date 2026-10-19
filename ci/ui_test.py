@@ -267,9 +267,10 @@ if b:
         time.sleep(65)
         shot("guard-after-autoclose")
         # Switch to the strong mode.
+        tap_xy(540, 1476, "我知道了 before going back to the app")
         adb("shell", "am", "start", "-n", "com.tomatime.app/.MainActivity")
-        time.sleep(2)
-        tap_xy(540, 1476, "close overlay if any")
+        time.sleep(12)
+        shot("guard-inside-app-no-reminder")
         st = scroll_find("強：要等 5 秒", exact=False)
         if st:
             tap_xy(*center(st), "strong")
@@ -291,7 +292,6 @@ if b:
 adb("shell", "am", "start", "-n", "com.tomatime.app/.MainActivity")
 time.sleep(2)
 shot("back-in-app")
-tap_xy(540, 1476, "close overlay if any")
 stop = scroll_find("運作中", exact=False)
 if stop:
     tap_xy(*center(stop), "stop guard")

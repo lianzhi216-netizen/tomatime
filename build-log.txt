@@ -1,5 +1,5 @@
-run 10 commit 573db543672b8a23cb88801ecf92fd9896b9158c status success
-BUILD SUCCESSFUL in 1m 7s
+run 11 commit 793c388fff831f8a5daf243f53285ff97904fd3b status success
+BUILD SUCCESSFUL in 1m 1s
 45 actionable tasks: 45 executed
 ----- tail -----
 To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.11.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
@@ -8,11 +8,11 @@ Daemon will be stopped at the end of the build
 > Task :app:preReleaseBuild UP-TO-DATE
 > Task :app:mergeReleaseJniLibFolders
 > Task :app:mergeReleaseNativeLibs
-> Task :app:checkReleaseDuplicateClasses
 
 > Task :app:stripReleaseDebugSymbols
 Unable to strip the following libraries, packaging them as they are: libandroidx.graphics.path.so.
 
+> Task :app:checkReleaseDuplicateClasses
 > Task :app:buildKotlinToolingMetadata
 > Task :app:checkKotlinGradlePluginConfigurationErrors SKIPPED
 > Task :app:extractReleaseNativeSymbolTables
@@ -28,25 +28,25 @@ Unable to strip the following libraries, packaging them as they are: libandroidx
 > Task :app:parseReleaseLocalResources
 > Task :app:processReleaseMainManifest
 > Task :app:processReleaseManifest
-> Task :app:desugarReleaseFileDependencies
 > Task :app:javaPreCompileRelease
+> Task :app:desugarReleaseFileDependencies
 > Task :app:mergeReleaseStartupProfile
 > Task :app:processReleaseManifestForPackage
-> Task :app:mergeReleaseResources
-> Task :app:mergeReleaseArtProfile
 > Task :app:mergeReleaseShaders
 > Task :app:compileReleaseShaders NO-SOURCE
 > Task :app:generateReleaseAssets UP-TO-DATE
+> Task :app:mergeReleaseArtProfile
+> Task :app:mergeReleaseResources
 > Task :app:mergeReleaseAssets
 > Task :app:compressReleaseAssets
 > Task :app:extractReleaseVersionControlInfo
-> Task :app:processReleaseResources
 > Task :app:collectReleaseDependencies
+> Task :app:processReleaseResources
 > Task :app:sdkReleaseDependencyData
-> Task :app:optimizeReleaseResources
 > Task :app:validateSigningRelease
 > Task :app:writeReleaseAppMetadata
 > Task :app:writeReleaseSigningConfigVersions
+> Task :app:optimizeReleaseResources
 > Task :app:mergeExtDexRelease
 > Task :app:compileReleaseKotlin
 > Task :app:compileReleaseJavaWithJavac
@@ -59,7 +59,7 @@ Unable to strip the following libraries, packaging them as they are: libandroidx
 > Task :app:packageRelease
 > Task :app:createReleaseApkListingFileRedirect
 > Task :app:assembleRelease
-gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run-1792385383248.json
+gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run-1792386306293.json
 
-BUILD SUCCESSFUL in 1m 7s
+BUILD SUCCESSFUL in 1m 1s
 45 actionable tasks: 45 executed

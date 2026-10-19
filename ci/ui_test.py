@@ -224,7 +224,6 @@ shot("pomo-thought")
 back()
 tap("結束任務")
 shot("pomo-ended")
-back()
 
 # Settings, then the sleep guard test with the medium overlay.
 tap("☰")

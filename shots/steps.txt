@@ -62,12 +62,19 @@ shot 25-pomo-thought
 back
 tap 結束任務 at 540,1510
 shot 26-pomo-ended
-back
-NOT FOUND: ☰
-shot 27-missing
-NOT FOUND: 設定
-shot 28-missing
-shot 29-settings
-shot 30-back-in-app
+tap ☰ at 1021,186
+tap 設定 at 710,700
+shot 27-settings
+tap guard switch at 1000,1413
+shot 28-guard-settings
+tap guard test at 354,1706
+home
+shot 29-guard-overlay
+NOT FOUND: 我知道了
+shot 30-missing
+shot 31-guard-second
+NOT FOUND: 我知道了
+shot 32-missing
+shot 33-back-in-app
 app process alive: True
 no crash

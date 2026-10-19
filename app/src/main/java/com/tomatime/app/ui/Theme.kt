@@ -127,7 +127,10 @@ fun FiveStepSlider(value: Int, labels: List<String> = IMPORTANCE, onChange: (Int
                 },
                 valueRange = 1f..5f,
                 steps = 3,
-                colors = SliderDefaults.colors(thumbColor = color, activeTrackColor = color, activeTickColor = Color.White),
+                colors = SliderDefaults.colors(
+                    thumbColor = color, activeTrackColor = color, activeTickColor = Color.White,
+                    inactiveTrackColor = PillBg, inactiveTickColor = Muted,
+                ),
             )
             val frac = (value - 1) / 4f
             Text(

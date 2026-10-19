@@ -253,7 +253,7 @@ fun App(store: Store) {
     }
 
     fun startScheduling(form: Dlg.PlanForm, deadline: LocalDate) {
-        val slots = suggest(data, form.estimateMin, deadline, now)
+        val slots = suggest(data, form.estimateMin, deadline, now).take(20)
         if (slots.isEmpty()) {
             dlg = Dlg.NoSlot(form.copy(deadline = deadline))
         } else {
@@ -610,8 +610,8 @@ private fun ModeBanner(
             val d = slot.toLocalDate()
             val a = minOfDay(slot, d)
             Column(Modifier.weight(1f).padding(vertical = 4.dp)) {
-                Text("建議時段（${mode.index + 1}/${mode.slots.size}）", fontSize = 13.sp, color = Muted)
-                Text(rangeLabel(d, a, a + mode.draft.estimateMin), fontSize = 15.sp, fontWeight = FontWeight.Bold, color = Tomato)
+                Text("建議時段 ${mode.index + 1}/${mode.slots.size}（${fmtDur(mode.draft.estimateMin)}）", fontSize = 12.sp, color = Muted)
+                Text("${dateLabel(d)} ${fmtMin(a)}–${fmtMin(a + mode.draft.estimateMin)}", fontSize = 15.sp, fontWeight = FontWeight.Bold, color = Tomato, maxLines = 1)
             }
             if (mode.slots.size > 1) TextButton("換一個") { onNext() }
             Pill("確認", selected = true) { onConfirm() }
@@ -645,20 +645,22 @@ private fun RegisterBar(
         }
         Column(
             Modifier
-                .width(96.dp)
+                .width(104.dp)
                 .clip(RoundedCornerShape(12.dp))
                 .background(PillBg)
                 .clickable(enabled = current != null) { current?.let { onNowTap(it.id) } }
-                .padding(horizontal = 8.dp, vertical = 8.dp),
-            verticalArrangement = Arrangement.spacedBy(6.dp),
+                .padding(horizontal = 8.dp, vertical = 6.dp),
         ) {
+            Text("現在", fontSize = 11.sp, color = Muted)
             Text(
-                "現在 " + (current?.let { "${cats[it.event.categoryId]?.emoji.orEmpty()}${titles[it.event.id].orEmpty().take(2)}" } ?: "—"),
+                current?.let { "${cats[it.event.categoryId]?.emoji.orEmpty()}${titles[it.event.id].orEmpty().take(3)}" } ?: "—",
                 fontSize = 13.sp, maxLines = 1,
             )
+            Spacer(Modifier.size(4.dp))
+            Text("下個", fontSize = 11.sp, color = Muted)
             Text(
-                "下個 " + (next?.let { "${cats[it.event.categoryId]?.emoji.orEmpty()}${fmtMin(it.startMin)}" } ?: "—"),
-                fontSize = 13.sp, maxLines = 1, color = Muted,
+                next?.let { "${fmtMin(it.startMin)} ${cats[it.event.categoryId]?.emoji.orEmpty()}" } ?: "—",
+                fontSize = 13.sp, maxLines = 1,
             )
         }
     }

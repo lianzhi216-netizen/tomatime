@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -6,9 +8,9 @@ plugins {
 }
 
 // One fixed signing key (kept in this private repo) so every build can update the installed app.
-val signingProps = java.util.Properties().apply {
+val signingProps = Properties().apply {
     val f = rootProject.file("signing/signing.properties")
-    if (f.exists()) f.inputStream().use { load(it) }
+    if (f.exists()) f.inputStream().use { stream -> this.load(stream) }
 }
 val hasKeystore = rootProject.file("signing/tomatime-release.jks").exists() && signingProps.isNotEmpty()
 

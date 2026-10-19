@@ -3,7 +3,7 @@ Success
 shot 01-onboarding
 tap 3. 開始使用 at 540,1855
 shot 02-week
-device time hour=12 date=10/19
+device time hour=13 date=10/19
 today column x=150
 tap 📝 at 174,2105
 shot 03-choose-how
@@ -16,11 +16,11 @@ shot 06-after-auto-plan
 tap 📝 at 174,2105
 tap 自己排 at 292,1064
 shot 07-select-mode
-long drag x=150 656->740
+long drag x=150 740->825
 shot 08-confirm-plan
 tap 儲存 at 821,1563
 shot 09-after-self-plan
-tap planned block at 150,533
+tap planned block at 150,627
 shot 10-detail-past
 tap 🟡 做一半 at 540,2015
 shot 11-remaining
@@ -28,9 +28,9 @@ tap 確定 at 821,1508
 shot 12-after-partial
 tap 🎮 at 174,2231
 shot 13-log-mode
-long drag x=150 825->910
+long drag x=150 910->994
 shot 14-after-log
-tap logged block at 150,722
+tap logged block at 150,817
 shot 15-detail-logged
 back
 tap 10/19 at 150,348
@@ -65,9 +65,28 @@ shot 26-pomo-ended
 tap ☰ at 1021,186
 tap 設定 at 710,700
 shot 27-settings
-tap guard switch at 1000,2169
+tap guard switch at 1000,1914
 shot 28-guard-settings
-shot 29-back-in-app
+tap guard test at 354,1844
+home
+shot 29-guard-medium
+tap 我知道了 (medium) at 540,1476
+shot 30-guard-medium-closed
+shot 31-guard-medium-again
+waiting 65 s without touching to check the 60 s auto-close
+shot 32-guard-after-autoclose
 tap close overlay if any at 540,1476
+tap strong at 771,1052
+shot 33-guard-strong
+tap 我知道了 too early (should do nothing) at 540,1476
+shot 34-guard-strong-early
+shot 35-guard-strong-ready
+tap 我知道了 (strong) at 540,1476
+shot 36-guard-strong-closed
+shot 37-guard-shade
+shot 38-back-in-app
+tap close overlay if any at 540,1476
+tap stop guard at 258,1844
+shot 39-guard-stopped
 app process alive: True
 no crash

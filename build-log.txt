@@ -1,5 +1,5 @@
-run 8 commit 78b1932c0ceb4ae1eab95ea32642e8bd0dae3b6d status success
-BUILD SUCCESSFUL in 1m 2s
+run 9 commit 1c60e4a47faa5d0ce7d3b96e78fc773c70d68537 status success
+BUILD SUCCESSFUL in 1m
 45 actionable tasks: 45 executed
 ----- tail -----
 To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.11.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
@@ -29,16 +29,16 @@ Unable to strip the following libraries, packaging them as they are: libandroidx
 > Task :app:processReleaseMainManifest
 > Task :app:processReleaseManifest
 > Task :app:desugarReleaseFileDependencies
-> Task :app:processReleaseManifestForPackage
 > Task :app:mergeReleaseStartupProfile
 > Task :app:javaPreCompileRelease
+> Task :app:processReleaseManifestForPackage
 > Task :app:mergeReleaseShaders
+> Task :app:mergeReleaseArtProfile
 > Task :app:compileReleaseShaders NO-SOURCE
 > Task :app:generateReleaseAssets UP-TO-DATE
-> Task :app:mergeReleaseArtProfile
-> Task :app:mergeReleaseResources
 > Task :app:mergeReleaseAssets
 > Task :app:compressReleaseAssets
+> Task :app:mergeReleaseResources
 > Task :app:extractReleaseVersionControlInfo
 > Task :app:collectReleaseDependencies
 > Task :app:sdkReleaseDependencyData
@@ -59,7 +59,7 @@ Unable to strip the following libraries, packaging them as they are: libandroidx
 > Task :app:packageRelease
 > Task :app:createReleaseApkListingFileRedirect
 > Task :app:assembleRelease
-gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run-1792383611827.json
+gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run-1792384328534.json
 
-BUILD SUCCESSFUL in 1m 2s
+BUILD SUCCESSFUL in 1m
 45 actionable tasks: 45 executed

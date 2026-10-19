@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
 
@@ -26,7 +26,26 @@ jobs:
           VERSION_CODE: ${{ github.run_number }}
         run: |
           chmod +x gradlew
-          ./gradlew assembleRelease --no-daemon --stacktrace
+          set -o pipefail
+          ./gradlew assembleRelease --no-daemon --console=plain --stacktrace 2>&1 | tee build.log
+
+      # The build log is saved to the ci-logs branch so it can be read through the repository API.
+      - name: Save build log
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          [ -f build.log ] || echo "no build log" > build.log
+          { echo "run ${{ github.run_number }} commit ${{ github.sha }} status ${{ job.status }}"; grep -E "^e: |^w: .*(deprecated|unused)|error:|What went wrong|BUILD (SUCCESSFUL|FAILED)" -A3 build.log | head -200; echo "----- tail -----"; tail -c 200000 build.log; } > log.txt
+          gh api "repos/$GITHUB_REPOSITORY/git/refs" -f ref=refs/heads/ci-logs -f sha="$GITHUB_SHA" >/dev/null 2>&1 || true
+          OLD=$(gh api "repos/$GITHUB_REPOSITORY/contents/build-log.txt?ref=ci-logs" --jq .sha 2>/dev/null || true)
+          base64 -w0 log.txt > log.b64
+          if [ -n "$OLD" ]; then
+            jq -n --rawfile c log.b64 --arg sha "$OLD" '{message:"build log ${{ github.run_number }}",branch:"ci-logs",content:$c,sha:$sha}' > body.json
+          else
+            jq -n --rawfile c log.b64 '{message:"build log ${{ github.run_number }}",branch:"ci-logs",content:$c}' > body.json
+          fi
+          gh api -X PUT "repos/$GITHUB_REPOSITORY/contents/build-log.txt" --input body.json >/dev/null
 
       - name: Name the APK
         run: |

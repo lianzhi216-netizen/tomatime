@@ -51,6 +51,7 @@ class GuardianService : Service() {
         const val ACTION_EMERGENCY_DONE = "com.tomatime.EMERGENCY_DONE"
         const val ACTION_EMERGENCY_EXTEND = "com.tomatime.EMERGENCY_EXTEND"
         const val ACTION_STOP = "com.tomatime.GUARD_STOP"
+        const val ACTION_DISMISS = "com.tomatime.GUARD_DISMISS"
         private const val EXTRA_TEST = "test"
 
         @Volatile
@@ -142,6 +143,10 @@ class GuardianService : Service() {
             }
             ACTION_EMERGENCY_EXTEND -> {
                 extendEmergency()
+                return START_NOT_STICKY
+            }
+            ACTION_DISMISS -> {
+                closeOverlay()
                 return START_NOT_STICKY
             }
         }

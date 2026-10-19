@@ -28,6 +28,8 @@ class MainActivity : ComponentActivity() {
     override fun onStart() {
         super.onStart()
         TomatimeApp.inForeground = true
+        // Opening Tomatime closes any sleep reminder card that is on screen.
+        com.tomatime.app.system.GuardianService.send(this, com.tomatime.app.system.GuardianService.ACTION_DISMISS)
     }
 
     override fun onStop() {

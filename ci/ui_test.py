@@ -51,9 +51,24 @@ def nodes():
     return out
 
 
+def clear_system_dialogs(ns):
+    """The emulator's own apps sometimes freeze and show 'isn't responding'; press Wait."""
+    if any("isn't responding" in t or "沒有回應" in t for t, d, b in ns):
+        for t, d, b in ns:
+            if t in ("Wait", "等待"):
+                adb("shell", "input", "tap", *center(b))
+                note("dismissed a system 'not responding' dialog")
+                time.sleep(1)
+                return True
+    return False
+
+
 def find(text, exact=True, pick="first"):
     for _ in range(6):
-        hits = [b for t, d, b in nodes() if (t == text if exact else text in t)]
+        ns = nodes()
+        if clear_system_dialogs(ns):
+            ns = nodes()
+        hits = [b for t, d, b in ns if (t == text if exact else text in t)]
         if hits:
             if pick == "bottom":
                 return max(hits, key=lambda b: b[1])
@@ -121,6 +136,9 @@ def crash_text():
     return c if "tomatime" in c else ""
 
 
+time.sleep(20)
+adb("shell", "input", "keyevent", 82)
+adb("shell", "am", "broadcast", "-a", "android.intent.action.CLOSE_SYSTEM_DIALOGS")
 note(adb("install", "-r", APK).decode("utf-8", "ignore").strip())
 adb("shell", "pm", "grant", "com.tomatime.app", "android.permission.POST_NOTIFICATIONS")
 adb("shell", "appops", "set", "com.tomatime.app", "SYSTEM_ALERT_WINDOW", "allow")

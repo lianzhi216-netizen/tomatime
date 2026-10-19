@@ -54,6 +54,17 @@ class Store(ctx: Context) {
     private val _data = MutableStateFlow(load())
     val data: StateFlow<AppData> = _data
 
+    /** Called after every change (alarms, notifications and widgets follow the data). */
+    var onChanged: ((AppData) -> Unit)? = null
+
+    private fun notifyChanged(d: AppData) {
+        try {
+            onChanged?.invoke(d)
+        } catch (t: Throwable) {
+            ErrorLog.log("更新提醒或小工具失敗", t)
+        }
+    }
+
     init {
         backupBeforeUpdate()
     }
@@ -107,12 +118,14 @@ class Store(ctx: Context) {
         }
         save(next)
         _data.value = next
+        notifyChanged(next)
     }
 
     @Synchronized
     fun replace(d: AppData) {
         save(d)
         _data.value = d
+        notifyChanged(d)
     }
 
     /** Restore from an imported backup; the current data is snapshotted first so it can be undone. */

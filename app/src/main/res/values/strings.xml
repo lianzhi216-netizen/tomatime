@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_today_desc">今天的行程、現在和下一件事，可以直接按完成</string>
+    <string name="widget_overview_desc">接下來一週、兩週或一個月的重要事項</string>
+    <string name="widget_add_desc">一鍵安排或補登</string>
+</resources>

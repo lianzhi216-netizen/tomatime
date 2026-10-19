@@ -146,7 +146,7 @@ fun gridRange(s: Settings): Pair<Int, Int> {
  * Candidate start times before the deadline, earliest first, at least an hour apart.
  * Prefers slots with the flexible gap free on both sides; falls back to tight slots.
  */
-fun suggest(data: AppData, estimateMin: Int, deadline: LocalDate, now: LocalDateTime): List<LocalDateTime> {
+fun suggest(data: AppData, categoryId: String, estimateMin: Int, deadline: LocalDate, now: LocalDateTime): List<LocalDateTime> {
     val s = data.settings
     val roomy = ArrayList<LocalDateTime>()
     val tight = ArrayList<LocalDateTime>()
@@ -175,7 +175,7 @@ fun suggest(data: AppData, estimateMin: Int, deadline: LocalDate, now: LocalDate
         }
         day = day.plusDays(1)
     }
-    val base = if (roomy.isNotEmpty()) roomy else tight
+    val base = applyTimePref(data, categoryId, if (roomy.isNotEmpty()) roomy else tight)
     val out = ArrayList<LocalDateTime>()
     for (c in base) if (out.none { kotlin.math.abs(ChronoUnit.MINUTES.between(it, c)) < 60 }) out += c
     return out

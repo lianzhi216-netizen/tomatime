@@ -101,6 +101,16 @@ def long_drag(x, y1, y2):
     time.sleep(1.5)
 
 
+def scroll_find(text, exact=True, tries=8):
+    for _ in range(tries):
+        b = find(text, exact)
+        if b:
+            return b
+        adb("shell", "input", "swipe", 540, 1900, 540, 900, 300)
+        time.sleep(0.8)
+    return None
+
+
 def hour_y(h):
     b = find(f"{h:02d}")
     return b[1] if b else None
@@ -112,6 +122,8 @@ def crash_text():
 
 
 note(adb("install", "-r", APK).decode("utf-8", "ignore").strip())
+adb("shell", "pm", "grant", "com.tomatime.app", "android.permission.POST_NOTIFICATIONS")
+adb("shell", "appops", "set", "com.tomatime.app", "SYSTEM_ALERT_WINDOW", "allow")
 adb("logcat", "-c")
 adb("shell", "am", "start", "-n", "com.tomatime.app/.MainActivity")
 time.sleep(5)
@@ -191,14 +203,52 @@ shot("menu")
 tap("未完成清單", exact=False)
 shot("unfinished")
 back()
+
+# Stats and overview.
+tap("☰")
+tap("統計")
+shot("stats")
+back()
+tap("10月", exact=False)
+shot("overview")
+back()
+
+# Pomodoro.
+tap("🍅")
+shot("pomo-start")
+if not tap("開始專注", exact=False):
+    tap("📚讀書")
+shot("pomo-running")
+tap("💭 想到別的事")
+shot("pomo-thought")
+back()
+tap("結束任務")
+shot("pomo-ended")
+back()
+
+# Settings, then the sleep guard test with the medium overlay.
 tap("☰")
 tap("設定")
 shot("settings")
-adb("shell", "input", "swipe", 540, 1800, 540, 600, 300)
-shot("settings-bottom")
-back()
-shot("final")
-
+b = scroll_find("睡覺時間滑手機時提醒我")
+if b:
+    tap_xy(1000, center(b)[1], "guard switch")
+    shot("guard-settings")
+    t = scroll_find("測試 5 分鐘", exact=False)
+    if t:
+        tap_xy(*center(t), "guard test")
+        adb("shell", "input", "keyevent", 3)
+        note("home")
+        time.sleep(14)
+        shot("guard-overlay")
+        if tap("我知道了", exact=False):
+            shot("guard-dismissed")
+        time.sleep(9)
+        shot("guard-second")
+        tap("我知道了", exact=False)
+adb("shell", "am", "start", "-n", "com.tomatime.app/.MainActivity")
+time.sleep(2)
+shot("back-in-app")
 pid = adb("shell", "pidof", "com.tomatime.app").decode().strip()
 note(f"app process alive: {bool(pid)}")
 crash = crash_text()

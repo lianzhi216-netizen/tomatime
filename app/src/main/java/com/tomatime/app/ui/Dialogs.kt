@@ -10,7 +10,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.size
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -212,6 +215,7 @@ fun DetailSheet(
     onStatus: (Status?) -> Unit,
     onPartial: () -> Unit,
     onAction: (Action) -> Unit,
+    onPomo: () -> Unit,
 ) {
     val sheet = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val e = occ.event
@@ -263,6 +267,9 @@ fun DetailSheet(
                         TextButton("重新回報", Tomato) { onStatus(null) }
                     }
                 }
+            }
+            if (!occ.isSleep && e.origin == Origin.PLANNED && occ.status == null && occ.end.isAfter(now)) {
+                StatusButton("🍅 開始番茄鐘", Modifier.fillMaxWidth()) { onPomo() }
             }
             Spacer(Modifier.height(4.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -330,12 +337,13 @@ fun EditDialog(occ: Occ, scope: EditScope, data: AppData, onDismiss: () -> Unit,
                         DatePickerDialog(ctx, { _, y, m, dd -> date = LocalDate.of(y, m + 1, dd) }, date.year, date.monthValue - 1, date.dayOfMonth).show()
                     }
                 }
-                Stepper("開始", start, 0, 28 * 60) { v ->
+                val step = if (e.origin == Origin.LOGGED) 5 else 30
+                Stepper("開始", start, 0, 28 * 60, step = step) { v ->
                     val dur = end - start
                     start = v
                     end = v + dur
                 }
-                Stepper("結束", end, start + 30, start + 16 * 60) { end = it }
+                Stepper("結束", end, start + step, start + 16 * 60, step = step) { end = it }
                 if (showRepeat) {
                     Text("重複", fontSize = 13.sp, color = Muted)
                     RepeatPicker(repeat) { repeat = it }
@@ -352,11 +360,16 @@ fun EditDialog(occ: Occ, scope: EditScope, data: AppData, onDismiss: () -> Unit,
 }
 
 @Composable
-fun AllCatsDialog(cats: List<Category>, onDismiss: () -> Unit, onPick: (Category) -> Unit) {
+fun AllCatsDialog(cats: List<Category>, extra: Pair<String, () -> Unit>? = null, onDismiss: () -> Unit, onPick: (Category) -> Unit) {
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text("選擇分類") },
-        text = { PillRows(cats.map { "${it.emoji}${it.name}" to false }, perRow = 3) { i -> onPick(cats[i]) } },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                PillRows(cats.map { "${it.emoji}${it.name}" to false }, perRow = 3) { i -> onPick(cats[i]) }
+                if (extra != null) BigChoice(extra.first, "依照手機記錄的 App 使用時間", extra.second)
+            }
+        },
         confirmButton = {},
         dismissButton = { androidx.compose.material3.TextButton(onClick = onDismiss) { Text("取消") } },
     )
@@ -397,4 +410,73 @@ fun UnfinishedActionDialog(
         confirmButton = {},
         dismissButton = { androidx.compose.material3.TextButton(onClick = onDismiss) { Text("關閉") } },
     )
+}
+
+
+/** 詳細補登: a name and exact times in 5-minute steps. */
+@Composable
+fun ConfirmLogDialog(d: LocalDate, a0: Int, b0: Int, label: String, onDismiss: () -> Unit, onSave: (String, Int, Int) -> Unit) {
+    var title by remember { mutableStateOf("") }
+    var a by remember { mutableIntStateOf(a0) }
+    var b by remember { mutableIntStateOf(b0) }
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("詳細補登 $label") },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                Text(dateLabel(d), color = Muted)
+                OutlinedTextField(
+                    value = title, onValueChange = { title = it }, singleLine = true,
+                    label = { Text("做了什麼（可不填）") }, modifier = Modifier.fillMaxWidth(),
+                )
+                Stepper("開始", a, 0, b - 5, step = 5) { a = it }
+                Stepper("結束", b, a + 5, a + 16 * 60, step = 5) { b = it }
+            }
+        },
+        confirmButton = { androidx.compose.material3.TextButton(onClick = { onSave(title, a, b) }) { Text("儲存") } },
+        dismissButton = { androidx.compose.material3.TextButton(onClick = onDismiss) { Text("取消") } },
+    )
+}
+
+private val PREF_LABELS = listOf("隨意", "稍好", "偏好", "強烈", "必須")
+
+@Composable
+fun AskPrefDialog(cat: String, bucket: String, onYes: (Int) -> Unit, onNo: () -> Unit) {
+    var strength by remember { mutableIntStateOf(3) }
+    AlertDialog(
+        onDismissRequest = onNo,
+        title = { Text("$cat 好像都在$bucket") },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Text("要固定排在$bucket嗎？「必須」代表排不下就不排。", fontSize = 14.sp)
+                FiveStepSlider(strength, PREF_LABELS) { strength = it }
+            }
+        },
+        confirmButton = { androidx.compose.material3.TextButton(onClick = { onYes(strength) }) { Text("確認") } },
+        dismissButton = { androidx.compose.material3.TextButton(onClick = onNo) { Text("不用") } },
+    )
+}
+
+/** A mascot that pops in with a bounce and fades away on its own. */
+@Composable
+fun StickerPop(res: Int, onDone: () -> Unit) {
+    val scale = remember { androidx.compose.animation.core.Animatable(0.2f) }
+    val fade = remember { androidx.compose.animation.core.Animatable(1f) }
+    androidx.compose.runtime.LaunchedEffect(res) {
+        scale.animateTo(1f, androidx.compose.animation.core.spring(dampingRatio = 0.45f, stiffness = 300f))
+        kotlinx.coroutines.delay(700)
+        fade.animateTo(0f, androidx.compose.animation.core.tween(350))
+        onDone()
+    }
+    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        androidx.compose.foundation.Image(
+            androidx.compose.ui.res.painterResource(res), null,
+            Modifier.size(200.dp).graphicsLayer {
+                scaleX = scale.value
+                scaleY = scale.value
+                alpha = fade.value
+                rotationZ = (1f - scale.value) * -25f
+            },
+        )
+    }
 }

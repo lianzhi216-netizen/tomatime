@@ -88,6 +88,80 @@ data class Settings(
     val backupIntervalDays: Int = 14,
     val lastBackupAt: Long = 0,
     val showMenuDot: Boolean = true,
+
+    // 番茄鐘
+    val pomo: PomoCfg = PomoCfg(),
+    val pomoByCategory: Map<String, PomoCfg> = emptyMap(),
+
+    // 補登記
+    val logDetailed: Boolean = false,
+    val logReminder: Boolean = true,
+
+    // 開始前提醒：0 = 關閉
+    val remindBeforeMin: Int = 5,
+    val remindFixed: Boolean = false,
+
+    // 睡眠守門員：0 輕、1 中、2 強
+    val guardEnabled: Boolean = false,
+    val guardStrength: Int = 1,
+    val emergencyApps: List<String> = emptyList(),
+
+    // 手機使用紀錄
+    val usageEnabled: Boolean = false,
+    val usageMinMin: Int = 15,
+
+    // 小工具
+    val widgetOverviewDays: Int = 7,
+    val widgetFullButtons: Boolean = false,
+)
+
+@Serializable
+data class PomoCfg(
+    val focusMin: Int = 25,
+    val shortMin: Int = 5,
+    val longMin: Int = 20,
+    val longEvery: Int = 4,
+)
+
+@Serializable
+enum class PomoPhase { FOCUS, SHORT_BREAK, LONG_BREAK, WAITING }
+
+/** The running pomodoro, persisted so it survives the app being closed. */
+@Serializable
+data class PomoState(
+    val occId: String? = null,
+    val categoryId: String,
+    val title: String,
+    val phase: PomoPhase,
+    val phaseStart: Long,
+    val phaseEnd: Long,
+    /** Finished focus rounds in this run. */
+    val done: Int = 0,
+    val interruptions: Int = 0,
+)
+
+@Serializable
+data class PomoSession(
+    val id: String,
+    val categoryId: String,
+    val occId: String? = null,
+    val start: Long,
+    val end: Long,
+    /** Ran to the end of the focus time. */
+    val completed: Boolean,
+)
+
+/** Learned "this category usually goes in the morning" with how strongly to keep it there (1–5). */
+@Serializable
+data class TimePref(val bucket: Int, val strength: Int)
+
+@Serializable
+data class SleepNight(
+    val date: String,
+    val phoneMin: Int = 0,
+    val reminders: Int = 0,
+    val emergencies: Int = 0,
+    val emergencyMin: Int = 0,
 )
 
 @Serializable
@@ -97,6 +171,17 @@ data class AppData(
     val categories: List<Category> = emptyList(),
     val events: List<Event> = emptyList(),
     val unfinished: List<Unfinished> = emptyList(),
+    val pomoState: PomoState? = null,
+    val pomoSessions: List<PomoSession> = emptyList(),
+    /** Last placements per category as time-of-day buckets (0 morning, 1 afternoon, 2 evening). */
+    val placements: Map<String, List<Int>> = emptyMap(),
+    val timePrefs: Map<String, TimePref> = emptyMap(),
+    val declinedPrefs: List<String> = emptyList(),
+    /** Phone app package -> category, asked once per app. */
+    val appCategories: Map<String, String> = emptyMap(),
+    val ignoredApps: List<String> = emptyList(),
+    val sleepNights: List<SleepNight> = emptyList(),
+    val declinedNewCats: List<String> = emptyList(),
 )
 
 object Defaults {

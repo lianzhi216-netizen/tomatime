@@ -3,6 +3,9 @@ package com.tomatime.app
 import android.app.Application
 import com.tomatime.app.data.ErrorLog
 import com.tomatime.app.data.Store
+import com.tomatime.app.system.Notifs
+import com.tomatime.app.system.Ticks
+import com.tomatime.app.system.Widgets
 
 class TomatimeApp : Application() {
     lateinit var store: Store
@@ -17,5 +20,18 @@ class TomatimeApp : Application() {
             previous?.uncaughtException(thread, error)
         }
         store = Store(this)
+        try {
+            Notifs.createChannels(this)
+        } catch (t: Throwable) {
+            ErrorLog.log("建立通知頻道失敗", t)
+        }
+        // Alarms, the pomodoro notification and widgets always follow the latest data.
+        store.onChanged = { d ->
+            Ticks.schedule(this)
+            Notifs.syncPomo(this, d)
+            Widgets.refresh(this)
+        }
+        Ticks.schedule(this)
+        Notifs.syncPomo(this, store.data.value)
     }
 }

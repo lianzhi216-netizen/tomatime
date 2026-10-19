@@ -1,80 +1,61 @@
 Performing Streamed Install
 Success
 shot 01-onboarding
-tap 3. 開始使用 at 540,1855
-shot 02-week
+NOT FOUND: 3. 開始使用
+shot 02-missing
+shot 03-week
 device time hour=12 date=10/19
-today column x=150
-tap 📝 at 174,2105
-shot 03-choose-how
-tap 幫我排 at 292,1292
-shot 04-plan-form
-tap 找時間 at 540,2208
-shot 05-suggest
-tap 確認 at 884,328
-shot 06-after-auto-plan
-tap 📝 at 174,2105
-tap 自己排 at 292,1064
-shot 07-select-mode
-long drag x=150 656->740
-shot 08-confirm-plan
-tap 儲存 at 821,1563
-shot 09-after-self-plan
-tap planned block at 150,533
-shot 10-detail-past
-tap 🟡 做一半 at 540,2015
-shot 11-remaining
-tap 確定 at 821,1508
-shot 12-after-partial
-tap 🎮 at 174,2231
-shot 13-log-mode
-long drag x=150 825->910
-shot 14-after-log
-tap logged block at 150,722
-shot 15-detail-logged
+today column x=None
+NOT FOUND: 📝
+shot 04-missing
+shot 05-choose-how
+NOT FOUND: 幫我排
+shot 06-missing
+shot 07-plan-form
+NOT FOUND: 找時間
+shot 08-missing
+shot 09-suggest
+NOT FOUND: 確認
+shot 10-missing
+shot 11-after-auto-plan
+NOT FOUND: ☰
+shot 12-missing
+shot 13-menu
+NOT FOUND: 未完成清單
+shot 14-missing
+shot 15-unfinished
 back
-tap 10/19 at 150,348
-shot 16-day-view
+NOT FOUND: ☰
+shot 16-missing
+NOT FOUND: 統計
+shot 17-missing
+shot 18-stats
 back
-swipe to next week
-shot 17-next-week
-tap 回到本週 at 493,183
-tap ☰ at 1021,186
-shot 18-menu
-tap 未完成清單 at 811,322
-shot 19-unfinished
+NOT FOUND: 10月
+shot 19-missing
+shot 20-overview
 back
-tap ☰ at 1021,186
-tap 統計 at 710,448
-shot 20-stats
-back
-tap 10月 at 184,186
-shot 21-overview
-back
-tap 🍅 at 914,183
+NOT FOUND: 🍅
+shot 21-missing
 shot 22-pomo-start
 NOT FOUND: 開始專注
 shot 23-missing
-tap 📚讀書 at 323,1006
-shot 24-pomo-running
-tap 💭 想到別的事 at 295,1337
-shot 25-pomo-thought
+NOT FOUND: 📚讀書
+shot 24-missing
+shot 25-pomo-running
+NOT FOUND: 💭 想到別的事
+shot 26-missing
+shot 27-pomo-thought
 back
-tap 結束任務 at 540,1510
-shot 26-pomo-ended
-tap ☰ at 1021,186
-tap 設定 at 710,700
-shot 27-settings
-tap guard switch at 1000,1413
-shot 28-guard-settings
-tap guard test at 354,1706
-home
-shot 29-guard-overlay
-NOT FOUND: 我知道了
+NOT FOUND: 結束任務
+shot 28-missing
+shot 29-pomo-ended
+NOT FOUND: ☰
 shot 30-missing
-shot 31-guard-second
-NOT FOUND: 我知道了
-shot 32-missing
+NOT FOUND: 設定
+shot 31-missing
+shot 32-settings
 shot 33-back-in-app
+tap close overlay if any at 540,1476
 app process alive: True
 no crash

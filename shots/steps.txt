@@ -65,9 +65,9 @@ shot 26-pomo-ended
 tap ☰ at 1021,186
 tap 設定 at 710,700
 shot 27-settings
-tap guard switch at 1000,1914
+tap guard switch at 1000,1963
 shot 28-guard-settings
-tap guard test at 354,1844
+tap guard test at 354,1970
 home
 shot 29-guard-medium
 tap 我知道了 (medium) at 540,1476
@@ -75,18 +75,18 @@ shot 30-guard-medium-closed
 shot 31-guard-medium-again
 waiting 65 s without touching to check the 60 s auto-close
 shot 32-guard-after-autoclose
-tap close overlay if any at 540,1476
-tap strong at 771,1052
-shot 33-guard-strong
+tap 我知道了 before going back to the app at 540,1476
+shot 33-guard-inside-app-no-reminder
+tap strong at 771,1178
+shot 34-guard-strong
 tap 我知道了 too early (should do nothing) at 540,1476
-shot 34-guard-strong-early
-shot 35-guard-strong-ready
+shot 35-guard-strong-early
+shot 36-guard-strong-ready
 tap 我知道了 (strong) at 540,1476
-shot 36-guard-strong-closed
-shot 37-guard-shade
-shot 38-back-in-app
-tap close overlay if any at 540,1476
-tap stop guard at 258,1844
-shot 39-guard-stopped
+shot 37-guard-strong-closed
+shot 38-guard-shade
+shot 39-back-in-app
+tap stop guard at 258,1970
+shot 40-guard-stopped
 app process alive: True
 no crash

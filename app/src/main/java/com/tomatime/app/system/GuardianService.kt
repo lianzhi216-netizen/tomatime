@@ -242,7 +242,7 @@ class GuardianService : Service() {
         val fg = foregroundApp()
         val store = Ticks.store(this)
         val skip = inCall() || isClockApp(fg) || fg == packageName ||
-            (now < emergencyUntil && (emergencyAll || fg in store.data.value.settings.emergencyApps))
+            (now < emergencyUntil && (emergencyAll || (fg != null && fg in store.data.value.settings.emergencyApps)))
         if (skip) {
             handler.postDelayed(fire, 15_000L)
             return

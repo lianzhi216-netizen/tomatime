@@ -448,7 +448,7 @@ fun AskPrefDialog(cat: String, bucket: String, onYes: (Int) -> Unit, onNo: () ->
         title = { Text("$cat 好像都在$bucket") },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Text("要固定排在$bucket嗎？「必須」代表排不下就不排。", fontSize = 14.sp)
+                Text("要固定排在${bucket}嗎？「必須」代表排不下就不排。", fontSize = 14.sp)
                 FiveStepSlider(strength, PREF_LABELS) { strength = it }
             }
         },

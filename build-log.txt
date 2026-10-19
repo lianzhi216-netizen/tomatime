@@ -1,5 +1,5 @@
-run 4 commit 91354f19e915c5141f0b97daf76a2fc579f8ed44 status success
-BUILD SUCCESSFUL in 1m 8s
+run 5 commit 3f7dd602e37c91a193d08103742ab7e8ecdeb3f6 status success
+BUILD SUCCESSFUL in 51s
 50 actionable tasks: 50 executed
 ----- tail -----
 To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.11.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
@@ -43,8 +43,8 @@ Unable to strip the following libraries, packaging them as they are: libandroidx
 > Task :app:compressReleaseAssets
 > Task :app:extractReleaseVersionControlInfo
 > Task :app:collectReleaseDependencies
-> Task :app:sdkReleaseDependencyData
 > Task :app:optimizeReleaseResources
+> Task :app:sdkReleaseDependencyData
 > Task :app:validateSigningRelease
 > Task :app:writeReleaseAppMetadata
 > Task :app:writeReleaseSigningConfigVersions
@@ -64,7 +64,7 @@ Unable to strip the following libraries, packaging them as they are: libandroidx
 > Task :app:lintVitalReportRelease
 > Task :app:lintVitalRelease
 > Task :app:assembleRelease
-gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run-1792380741118.json
+gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run-1792381223582.json
 
-BUILD SUCCESSFUL in 1m 8s
+BUILD SUCCESSFUL in 51s
 50 actionable tasks: 50 executed

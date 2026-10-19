@@ -121,7 +121,7 @@ def scroll_find(text, exact=True, tries=8):
         b = find(text, exact)
         if b:
             return b
-        adb("shell", "input", "swipe", 540, 1900, 540, 900, 300)
+        adb("shell", "input", "swipe", 540, 1700, 540, 1100, 1200)
         time.sleep(0.8)
     return None
 
